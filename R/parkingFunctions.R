@@ -1,16 +1,14 @@
 #' Probabilistic Parking Functions
 #'
-#' Run a uniformly distributed (m,n)-PPF
+#' Try to park the cars given the preference vector
 #'
 #' @param m Number of cars.
 #' @param n Number of spots.
 #' @param p Probability of driving to the right.
-#' @return A list pref = preference vectors spots either the parked scheme or FALSE is some car didn't park
+#' @return A vector with the park configuration. If the result has NA, then some car didn't park.
 #' @export
-
-ppf <- function(m,n,p) {
-  # Initialize car preferences
-  prefs <- sample(1:n,m,TRUE)
+ppf.park <- function(prefs,n,p) {
+  m <- length(prefs)
   # Initialize parking
   spots <- rep(NA,n)
   car <- 1
@@ -31,7 +29,7 @@ ppf <- function(m,n,p) {
     }
     car <- car + 1
   }
-
+  return(spots)
 }
 
 #' Probabilistic Parking Functions
@@ -43,29 +41,8 @@ ppf <- function(m,n,p) {
 #' @param p Probability of driving to the right.
 #' @return TRUE if all cars have parked FALSE otherwise
 #' @export
-ppf.park <- function(prefs,n,p)  {
-  m <- length(prefs)
-  # Initialize parking
-  spots <- rep(NA,n)
-  car <- 1
-  while(car <= m ) {
-    fav_spot <- prefs[car]
-    direction <- sample(c(1,-1),1, prob = c(p,1-p))
-
-    while(fav_spot>0 && fav_spot <= n) {
-      if(is.na(spots[fav_spot])) {
-        spots[fav_spot] <- car
-        break;
-      } else {
-        fav_spot <- fav_spot + direction
-      }
-    }
-    if(fav_spot < 0 || fav_spot > n) {
-      return(FALSE)
-    }
-    car <- car + 1
-  }
-  return(TRUE)
+ppf.parked <- function(prefs,n,p)  {
+  return(any(is.na(ppf.park(prefs,n,p))))
 }
 
 #' Probabilistic Parking Functions
@@ -83,7 +60,7 @@ ppf.preferences <- function(N,m,n,j,p) {
   preferences <- c()
   for(i in 1:N) {
     prefs <- sample(1:n,m,TRUE)
-    if(ppf.park(prefs,n,p)) {
+    if(ppf.parked(prefs,n,p)) {
       preferences <- c(preferences,prefs[j])
     }
   }

@@ -7,15 +7,15 @@
 ppf.park(prefs, n, p)
 }
 \arguments{
-\item{prefs}{Vector of cars' preferences}
-
 \item{n}{Number of spots.}
 
 \item{p}{Probability of driving to the right.}
+
+\item{m}{Number of cars.}
 }
 \value{
-TRUE if all cars have parked FALSE otherwise
+A vector with the park configuration. If the result has NA, then some car didn't park.
 }
 \description{
-Try to park all cars given their preferences, number of spots and direction probability
+Try to park the cars given the preference vector
 }
