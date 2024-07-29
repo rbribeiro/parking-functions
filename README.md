@@ -11,7 +11,7 @@ To install the package, clone this repository and use the `devtools` package to 
 install.packages("devtools")
 
 # Clone the repository
-# git clone https://github.com/yourusername/ppf-package.git
+# git clone https://github.com/rbribeiro/ppf-package.git
 
 # Install the package
 devtools::install_local("path/to/your/package")
