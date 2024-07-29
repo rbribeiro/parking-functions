@@ -15,6 +15,8 @@ install.packages("devtools")
 
 # Install the package
 devtools::install_local("path/to/your/package")
+```
+
 
 ## Usage
 
