@@ -22,12 +22,13 @@ devtools::install_local("path/to/your/package")
 
 ```R
 # Run a probabilistic parking function
-result <- ppf(m = 10, n = 15, p = 0.5)
+preferences <- sample(1:15, 10, TRUE)
+result <- ppf.park(prefs = preference, n = 15, p = 0.5)
 print(result)
 
 # Try to park all cars
 preferences <- sample(1:15, 10, TRUE)
-is_parked <- ppf.park(prefs = preferences, n = 15, p = 0.5)
+is_parked <- ppf.parked(prefs = preferences, n = 15, p = 0.5)
 print(is_parked)
 
 # Get the preferences of the j-th car
