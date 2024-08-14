@@ -10,14 +10,13 @@
 ppf.park <- function(prefs,n,p) {
   m <- length(prefs)
   # Initialize parking
-  spots <- rep(NA,n)
+  spots <- rep(0,n)
   car <- 1
   while(car <= m ) {
     fav_spot <- prefs[car]
-    direction <- sample(c(1,-1),prob = c(p,1-p))
-
+    direction <- 2*rbinom(1,1,p)-1
     while(fav_spot>0 && fav_spot <= n) {
-      if(!is.na(spots[fav_spot])) {
+      if(spots[fav_spot] == 0) {
         spots[fav_spot] <- car
         break;
       } else {
@@ -25,6 +24,7 @@ ppf.park <- function(prefs,n,p) {
       }
     }
     if(fav_spot < 0 || fav_spot > n) {
+      spots[prefs[car]] <- NA
       break;
     }
     car <- car + 1
@@ -42,7 +42,7 @@ ppf.park <- function(prefs,n,p) {
 #' @return TRUE if all cars have parked FALSE otherwise
 #' @export
 ppf.parked <- function(prefs,n,p)  {
-  return(any(is.na(ppf.park(prefs,n,p))))
+  return(!any(is.na(ppf.park(prefs,n,p))))
 }
 
 #' Probabilistic Parking Functions
@@ -59,12 +59,19 @@ ppf.parked <- function(prefs,n,p)  {
 ppf.preferences <- function(N,m,n,j,p) {
   preferences <- c()
   for(i in 1:N) {
-    prefs <- sample(1:n,m,TRUE)
-    if(ppf.parked(prefs,n,p)) {
+    prefs <- sample(1:n,size = m,replace = TRUE)
+    hasParked <- ppf.parked(prefs,n,p)
+    if(hasParked) {
       preferences <- c(preferences,prefs[j])
     }
   }
   return(preferences)
 }
+
+ppf.preferenceHistogram <- function(N,m,n,j,p) {
+  preferences <- ppf.preferences(N,m,n,j,p)
+  hist(preferences, probability = TRUE)
+}
+
 
 
