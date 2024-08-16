@@ -1,11 +1,14 @@
-#' Probabilistic Parking Functions
+#' Simulate a Probabilistic Parking Function
 #'
-#' Try to park the cars given the preference vector
+#' This function attempts to park a series of cars in a row of parking spots based on their preferred spots.
+#' Each car has a preference for a specific parking spot and a probability of driving to the right.
+#' If a preferred spot is occupied, the car will try to move to the next spot in the direction dictated by the probability.
+#' If the car cannot find an open spot in the allowed range, it is marked as not parked.
 #'
-#' @param m Number of cars.
-#' @param n Number of spots.
-#' @param p Probability of driving to the right.
-#' @return A vector with the park configuration. If the result has NA, then some car didn't park.
+#' @param prefs A vector representing the preferred parking spots for each car.
+#' @param n The total number of parking spots available.
+#' @param p The probability of the car deciding to move to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+#' @return A vector representing the final parking configuration. If a car fails to park, its original preferred spot is marked with NA.
 #' @export
 ppf.park <- function(prefs,n,p) {
   m <- length(prefs)
@@ -17,12 +20,13 @@ ppf.park <- function(prefs,n,p) {
     direction <- 2*rbinom(1,1,p)-1
     while(fav_spot>0 && fav_spot <= n) {
       if(spots[fav_spot] == 0) {
-        spots[fav_spot] <- car
+        spots[fav_spot] <- car # spot is free, park here
         break;
       } else {
-        fav_spot <- fav_spot + direction
+        fav_spot <- fav_spot + direction # spot is occupied, move!
       }
     }
+    # car didn't manage to park
     if(fav_spot < 0 || fav_spot > n) {
       spots[prefs[car]] <- NA
       break;
@@ -32,29 +36,31 @@ ppf.park <- function(prefs,n,p) {
   return(spots)
 }
 
-#' Probabilistic Parking Functions
+#' Check if All Cars Successfully Parked
 #'
-#' Try to park all cars given their preferences, number of spots and direction probability
+#' This function determines whether all cars successfully parked in a row of parking spots, based on their preferences.
+#' It uses the `ppf.park` function to attempt to park the cars and then checks if any car failed to find a spot.
 #'
-#' @param prefs Vector of cars' preferences
-#' @param n Number of spots.
-#' @param p Probability of driving to the right.
-#' @return TRUE if all cars have parked FALSE otherwise
+#' @param prefs A vector representing the preferred parking spots for each car.
+#' @param n The total number of parking spots available.
+#' @param p The probability of a car deciding to move to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+#' @return A boolean value: `TRUE` if all cars managed to park, `FALSE` if any car failed to park.
 #' @export
 ppf.parked <- function(prefs,n,p)  {
   return(!any(is.na(ppf.park(prefs,n,p))))
 }
 
-#' Probabilistic Parking Functions
+#' Retrieve Preferences of the j-th Car in a Probabilistic Parking Function
 #'
-#' Get the preferences of the j-th car of a parking function
+#' This function simulates the parking process multiple times to collect the preferred parking spots of the j-th car, provided that the car successfully parks.
+#' It attempts to park the cars in `N` independent repetitions and records the preference of the j-th car each time it successfully parks.
 #'
-#' @param N number of repetitions
-#' @param m Number of cars.
-#' @param n Number of spots.
-#' @param j j-th car.
-#' @param p Probability of driving to the right.
-#' @return A list of preferences or NULL if in N repetitions there were no successful in parking
+#' @param N The number of repetitions for the simulation.
+#' @param m The total number of cars.
+#' @param n The total number of parking spots.
+#' @param j The index of the car whose preference you want to retrieve (1 ≤ j ≤ m).
+#' @param p The probability of a car deciding to move to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+#' @return A list of parking preferences for the j-th car across successful parking attempts, or `NULL` if no successful parking occurred in `N` repetitions.
 #' @export
 ppf.preferences <- function(N,m,n,j,p) {
   preferences <- c()
@@ -67,11 +73,4 @@ ppf.preferences <- function(N,m,n,j,p) {
   }
   return(preferences)
 }
-
-ppf.preferenceHistogram <- function(N,m,n,j,p) {
-  preferences <- ppf.preferences(N,m,n,j,p)
-  hist(preferences, probability = TRUE)
-}
-
-
 

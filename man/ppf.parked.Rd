@@ -2,20 +2,21 @@
 % Please edit documentation in R/parkingFunctions.R
 \name{ppf.parked}
 \alias{ppf.parked}
-\title{Probabilistic Parking Functions}
+\title{Check if All Cars Successfully Parked}
 \usage{
 ppf.parked(prefs, n, p)
 }
 \arguments{
-\item{prefs}{Vector of cars' preferences}
+\item{prefs}{A vector representing the preferred parking spots for each car.}
 
-\item{n}{Number of spots.}
+\item{n}{The total number of parking spots available.}
 
-\item{p}{Probability of driving to the right.}
+\item{p}{The probability of a car deciding to move to the right if its preferred spot is occupied (0 ≤ p ≤ 1).}
 }
 \value{
-TRUE if all cars have parked FALSE otherwise
+A boolean value: `TRUE` if all cars managed to park, `FALSE` if any car failed to park.
 }
 \description{
-Try to park all cars given their preferences, number of spots and direction probability
+This function determines whether all cars successfully parked in a row of parking spots, based on their preferences.
+It uses the `ppf.park` function to attempt to park the cars and then checks if any car failed to find a spot.
 }

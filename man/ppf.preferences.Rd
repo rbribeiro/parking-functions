@@ -2,24 +2,25 @@
 % Please edit documentation in R/parkingFunctions.R
 \name{ppf.preferences}
 \alias{ppf.preferences}
-\title{Probabilistic Parking Functions}
+\title{Retrieve Preferences of the j-th Car in a Probabilistic Parking Function}
 \usage{
 ppf.preferences(N, m, n, j, p)
 }
 \arguments{
-\item{N}{number of repetitions}
+\item{N}{The number of repetitions for the simulation.}
 
-\item{m}{Number of cars.}
+\item{m}{The total number of cars.}
 
-\item{n}{Number of spots.}
+\item{n}{The total number of parking spots.}
 
-\item{j}{j-th car.}
+\item{j}{The index of the car whose preference you want to retrieve (1 ≤ j ≤ m).}
 
-\item{p}{Probability of driving to the right.}
+\item{p}{The probability of a car deciding to move to the right if its preferred spot is occupied (0 ≤ p ≤ 1).}
 }
 \value{
-A list of preferences or NULL if in N repetitions there were no successful in parking
+A list of parking preferences for the j-th car across successful parking attempts, or `NULL` if no successful parking occurred in `N` repetitions.
 }
 \description{
-Get the preferences of the j-th car of a parking function
+This function simulates the parking process multiple times to collect the preferred parking spots of the j-th car, provided that the car successfully parks.
+It attempts to park the cars in `N` independent repetitions and records the preference of the j-th car each time it successfully parks.
 }
