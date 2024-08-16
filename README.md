@@ -1,36 +1,88 @@
-# Probabilistic Parking Functions (PPF)
 
-This R package provides functions to simulate and analyze probabilistic parking functions, which are useful for studying parking strategies and behaviors in probabilistic scenarios.
+# Probabilistic Parking Function Simulation in R
+
+This R package provides a set of functions to simulate and analyze parking behavior based on probabilistic preferences. The package allows users to model scenarios where cars attempt to park in a row of spots according to their preferences, with a given probability of moving in a specific direction when their preferred spot is occupied.
 
 ## Installation
 
-To install the package, clone this repository and use the `devtools` package to install it from the local directory.
+You can install the package directly from the source:
 
-```R
-# Install devtools if you haven't already
-install.packages("devtools")
-
-# Clone the repository
-# git clone https://github.com/rbribeiro/ppf-package.git
-
-# Install the package
-devtools::install_local("path/to/your/package")
+```r
+# Install from local source
+install.packages("path/to/your/package.tar.gz", repos = NULL, type = "source")
 ```
 
+## Functions
 
-## Usage
+### `ppf.park()`
 
-```R
-# Run a probabilistic parking function
-preferences <- sample(1:15, 10, TRUE)
-result <- ppf.park(prefs = preference, n = 15, p = 0.5)
-print(result)
+Simulates the parking process for a series of cars based on their preferred spots.
 
-# Try to park all cars
-preferences <- sample(1:15, 10, TRUE)
-is_parked <- ppf.parked(prefs = preferences, n = 15, p = 0.5)
-print(is_parked)
+- **Usage**: `ppf.park(prefs, n, p)`
+- **Arguments**:
+  - `prefs`: A vector of preferred parking spots for each car.
+  - `n`: The total number of parking spots.
+  - `p`: The probability of a car moving to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+- **Returns**: A vector representing the final parking configuration. If a car fails to park, its original preferred spot is marked with `NA`.
 
-# Get the preferences of the j-th car
-preferences_j <- ppf.preferences(N = 100, m = 10, n = 15, j = 3, p = 0.5)
-print(preferences_j)
+### `ppf.parked()`
+
+Checks if all cars successfully parked in their preferred spots.
+
+- **Usage**: `ppf.parked(prefs, n, p)`
+- **Arguments**:
+  - `prefs`: A vector of preferred parking spots for each car.
+  - `n`: The total number of parking spots.
+  - `p`: The probability of a car moving to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+- **Returns**: `TRUE` if all cars managed to park, `FALSE` otherwise.
+
+### `ppf.preferences()`
+
+Retrieves the preferences of a specific car across multiple simulation runs.
+
+- **Usage**: `ppf.preferences(N, m, n, j, p)`
+- **Arguments**:
+  - `N`: The number of simulation repetitions.
+  - `m`: The total number of cars.
+  - `n`: The total number of parking spots.
+  - `j`: The index of the car whose preference you want to retrieve (1 ≤ j ≤ m).
+  - `p`: The probability of a car moving to the right if its preferred spot is occupied (0 ≤ p ≤ 1).
+- **Returns**: A list of parking preferences for the `j`-th car across successful parking attempts, or `NULL` if no successful parking occurred in `N` repetitions.
+
+## Examples
+
+### Example 1: Basic Parking Simulation
+
+```r
+prefs <- c(1, 2, 3, 4)
+n <- 5
+p <- 0.5
+final_parking <- ppf.park(prefs, n, p)
+print(final_parking)
+```
+
+### Example 2: Check if All Cars Parked
+
+```r
+prefs <- c(1, 2, 3, 4)
+n <- 4
+p <- 0.8
+all_parked <- ppf.parked(prefs, n, p)
+print(all_parked)
+```
+
+### Example 3: Retrieving Preferences for a Specific Car
+
+```r
+N <- 100
+m <- 5
+n <- 5
+j <- 2
+p <- 0.7
+preferences <- ppf.preferences(N, m, n, j, p)
+print(preferences)
+```
+
+## License
+
+This package is open-source and licensed under the MIT License.
