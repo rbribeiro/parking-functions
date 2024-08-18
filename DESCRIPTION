@@ -1,12 +1,11 @@
-Package: ProbabilisticParkingFunctions
+Package: PPF
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Probabilistic Parking Function Simulation
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Dr. Rodrigo Ribeiro
+Maintainer: Rodrigo Ribeiro <rodrigo.ribeiro@du.edu>
+Description: This package provides functions for simulating probabilistic parking functions, where cars park in a row of parking spots based on preferences and probabilistic movement. It includes functions to simulate parking, check if all cars parked successfully, and retrieve the parking preferences for a specific car.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2

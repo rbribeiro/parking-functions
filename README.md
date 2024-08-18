@@ -8,8 +8,22 @@ This R package provides a set of functions to simulate and analyze parking behav
 You can install the package directly from the source:
 
 ```r
-# Install from local source
-install.packages("path/to/your/package.tar.gz", repos = NULL, type = "source")
+# Install the devtools package if it's not already installed
+# devtools provides tools to make package development easier, including the ability to install packages from GitHub
+if (!requireNamespace("devtools", quietly = TRUE)) {
+    install.packages("devtools")
+}
+
+# Load the devtools package
+library(devtools)
+
+# Install the package from GitHub
+install_github("rbribeiro/parking-functions")
+
+# Load the installed package 
+library(ppf)
+
+# The package is now installed and loaded. You can start using the functions in the package.
 ```
 
 ## Functions

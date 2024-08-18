@@ -73,4 +73,3 @@ ppf.preferences <- function(N,m,n,j,p) {
   }
   return(preferences)
 }
-
