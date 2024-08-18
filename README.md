@@ -21,7 +21,7 @@ library(devtools)
 install_github("rbribeiro/parking-functions")
 
 # Load the installed package 
-library(ppf)
+library(PPF)
 
 # The package is now installed and loaded. You can start using the functions in the package.
 ```
