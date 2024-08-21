@@ -17,7 +17,8 @@ ppf.park <- function(prefs,n,p) {
   car <- 1
   while(car <= m ) {
     fav_spot <- prefs[car]
-    direction <- 2*rbinom(1,1,p)-1
+    direction <- ifelse(runif(1) < p, 1, -1)
+
     while(fav_spot>0 && fav_spot <= n) {
       if(spots[fav_spot] == 0) {
         spots[fav_spot] <- car # spot is free, park here
@@ -27,9 +28,9 @@ ppf.park <- function(prefs,n,p) {
       }
     }
     # car didn't manage to park
-    if(fav_spot < 0 || fav_spot > n) {
+    if(fav_spot < 1 || fav_spot > n) {
       spots[prefs[car]] <- NA
-      break;
+      return(spots) # early exit since a car hasn't parked
     }
     car <- car + 1
   }
